@@ -1,3 +1,4 @@
+import re, os
 import pygments
 from pygments import lexers, formatters
 import json
@@ -6,6 +7,7 @@ import markdown
 class Htmlify():
     def __init__(self, path):
         self.path = path
+        self.web_path = 'web/' + re.match('.*/(.*).ipynb', self.path).groups()[0] + '.html'
         
     def template(self):
         return """
@@ -29,8 +31,10 @@ class Htmlify():
 </body>
 </html>
 """
+    def delete(self):
+        os.system('rm %s' % self.web_path)
 
-    def write_html(self):
+    def modify(self):
         opts = {}
         with open(self.path, 'r') as f:
             body = json.loads(f.read())
@@ -42,7 +46,8 @@ class Htmlify():
 
         opts['style'] = self.style()
         opts['body'] = body
-        with open('index.html', 'w') as f:
+        
+        with open(self.web_path, 'w') as f:
             f.write(self.template().format(**opts))
 
     def style(self):

@@ -10,40 +10,39 @@ from watchdog import events
 class Handler(events.FileSystemEventHandler):
     """Logs all the events captured."""
 
+    def is_ipynb(self, event):
+        return 'ipynb_checkpoints' not in event.src_path and event.src_path[-6:] == '.ipynb'
+
     def on_moved(self, event):
         super(Handler, self).on_moved(event)
-        # handle movement.. delete old file etc.
-        pass
+        self.on_deleted(event)
         
 
     def on_created(self, event):
         super(Handler, self).on_created(event)
-
+        print "created %s" % event.src_path
         what = 'directory' if event.is_directory else 'file'
-        is_ipynb = event.src_path[-6:] == '.ipynb'
-        if is_ipynb:
-            Htmlify(event.src_path).write_html()
+        if self.is_ipynb(event):
+            Htmlify(event.src_path).modify()
 
 
     def on_deleted(self, event):
         super(Handler, self).on_deleted(event)
-        is_ipynb = event.src_path[-6:] == '.ipynb'
-        if is_ipynb:
-            # delete relevant html
-            pass
+        if self.is_ipynb(event):
+            print 'deleted %s' % event.src_path
+            Htmlify(event.src_path).delete()
 
     def on_modified(self, event):
         super(Handler, self).on_modified(event)
-        is_ipynb = event.src_path[-6:] == '.ipynb'
-        if is_ipynb:
-            print "modifying..."
-            Htmlify(event.src_path).write_html()
+        if self.is_ipynb(event):
+            print "modifying %s" % event.src_path
+            Htmlify(event.src_path).modify()
 
 if __name__ == "__main__":
+    path = './analysis'
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
-    path = sys.argv[1] if len(sys.argv) > 1 else '.'
     event_handler = Handler()
     observer = watchdog.observers.Observer()
     observer.schedule(event_handler, path, recursive=True)
