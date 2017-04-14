@@ -3,7 +3,7 @@ import time
 import logging
 import watchdog
 
-from htmlify import *
+from notebook import Notebook
 from watchdog.observers import Observer
 from watchdog import events
 
@@ -20,26 +20,26 @@ class Handler(events.FileSystemEventHandler):
 
     def on_created(self, event):
         super(Handler, self).on_created(event)
-        print "created %s" % event.src_path
-        what = 'directory' if event.is_directory else 'file'
+        print "created %s" % event.src_path.replace('.~', '')
         if self.is_ipynb(event):
-            Htmlify(event.src_path).modify()
+            # somehow .~ is prepended to the path
+            Notebook(event.src_path.replace('.~', '')).save()
 
 
     def on_deleted(self, event):
         super(Handler, self).on_deleted(event)
         if self.is_ipynb(event):
             print 'deleted %s' % event.src_path
-            Htmlify(event.src_path).delete()
+            Notebook(event.src_path).delete()
 
     def on_modified(self, event):
         super(Handler, self).on_modified(event)
         if self.is_ipynb(event):
             print "modifying %s" % event.src_path
-            Htmlify(event.src_path).modify()
+            Notebook(event.src_path).save()
 
 if __name__ == "__main__":
-    path = './analysis'
+    path = '.'
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
