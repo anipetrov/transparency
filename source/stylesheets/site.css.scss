@@ -1,0 +1,133 @@
+$article-background: white;
+$header-background: #1A4E5C; // navy
+$body-background: #E2CCB7; //pasty
+$body-background: white; //pasty
+$link: #6293A2; //chromium
+$link-hover: white;
+
+
+
+body {
+  background-color: $body-background;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir",
+    "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans",
+    "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu",
+    "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
+  text-align: center;
+  margin: 0px;
+}
+
+ul,ol {
+  list-style-type: none;
+}
+
+
+a {
+  color: rgba(#000, 0.7);
+
+  &:focus,
+  &:hover {
+    color: black;
+  }
+}
+
+
+#main {
+  // padding: 18vh 1rem;
+  width: 90%;
+  margin: auto;
+  padding-top: 50px;
+}
+
+
+#header {
+  background-color: $header-background;
+  margin: 0px;
+  padding: 0px;
+  height: 60px;
+  width: 100%;
+
+  .link-container {
+    padding-left: 18vh;
+  }
+
+  a {
+    text-decoration: none;
+    float: left;
+    padding: 18px;
+    color: $link;
+    &:focus,
+    &:hover {
+      color: $link-hover;
+    } 
+  }
+
+  .logo {
+    color: #bbb;
+  }
+}
+
+article {
+  text-align: left;
+  border: 1px solid #bbb;
+  padding: 18vh 1rem;
+  padding-top: 15px;
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
+  background-color: $article-background;
+
+  img {
+    width: 100%;
+  }
+
+  pre {
+    text-align: left;
+    padding: 20px;
+    margin: 10px;
+    white-space: pre-wrap;
+  }
+}
+
+.cell {
+  padding-top: 20px;
+}
+
+.output {
+  padding-top: 20px;
+}
+
+.article-summary {
+  text-align: left;
+  width: 70%;
+  margin: auto;
+}
+
+.article-summary + .article-summary {
+  margin-top: 50px;
+}
+
+.article-summary-date {
+  float: right;
+  font-size: 14px;
+}
+
+table {
+  width: 80%;
+  margin: auto;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: center;
+  padding: 10px;
+}
+
+td {
+  text-align: right;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}

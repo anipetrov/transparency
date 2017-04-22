@@ -1,0 +1,8 @@
+<% wrap_layout :layout do %>
+  <%= stylesheet_link_tag 'highlight' %>
+  <h1><%= current_article.title %></h1>
+  <%= current_article.data.join('--') %>
+  <article>
+    <%= yield %>
+  </article>
+<% end %>

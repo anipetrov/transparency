@@ -1,0 +1,37 @@
+---
+pageable: true
+per_page: 10
+---
+
+<% if paginate && num_pages > 1 %>
+  <p>Page <%= page_number %> of <%= num_pages %></p>
+
+  <% if prev_page %>
+    <p><%= link_to 'Previous page', prev_page %></p>
+  <% end %>
+<% end %>
+
+<% blog.articles.each.with_index do |article, i| %>
+  <div class='article-summary'>
+    <h2>
+      <%= link_to article.title, article %>
+      <span class='article-summary-date'><%= article.date.strftime('%b %e') %></span>
+    </h2>
+    <%= article.summary(250) %>
+  </div>
+<% end %>
+
+<aside>
+  <h2>Tags</h2>
+  <ol>
+    <% blog.tags.each do |tag, articles| %>
+      <li><%= link_to "#{tag} (#{articles.size})", tag_path(tag) %></li>
+    <% end %>
+  </ol>
+</aside>
+
+<% if paginate %>
+  <% if next_page %>
+    <p><%= link_to 'Next page', next_page %></p>
+  <% end %>
+<% end %>
