@@ -2,6 +2,7 @@
 # Page options, layouts, aliases and proxies
 ###
 
+
 # Per-page layout changes:
 #
 # With no layout
@@ -19,14 +20,27 @@ page '/*.txt', layout: false
 ###
 # Helpers
 ###
-activate :livereload
+set :file_watcher_ignore, [
+        /^\.bundle\//,
+        /^\.sass-cache\//,
+        /^\.git\//,
+        /^\.gitignore$/,
+        /\.DS_Store/,
+        /^build\//,
+        /^\.rbenv-.*$/,
+        /^Gemfile$/,
+        /^Gemfile\.lock$/,
+        /~$/,
+        /gemspec/,
+        /(^|\/)\.?#/
+      ]
 activate :blog do |blog|
   # This will add a prefix to all links, template references and source paths
   # blog.prefix = "blog"
 
   # blog.permalink = "{year}/{month}/{day}/{title}.html"
   # Matcher for blog source files
-  # blog.sources = "{year}-{month}-{day}-{title}.html"
+  blog.sources = "articles/{year}-{month}-{day}-{title}.html"
   # blog.taglink = "tags/{tag}.html"
   blog.layout = 'blog'
   # blog.summary_separator = /(READMORE)/
@@ -47,9 +61,9 @@ end
 
 page '/feed.xml', layout: false
 # Reload the browser automatically whenever files change
-# configure :development do
-#   activate :livereload
-# end
+configure :development do
+  activate :livereload, no_swf: true
+end
 
 # Methods defined in the helpers block are available in templates
 # helpers do

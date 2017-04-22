@@ -1,13 +1,13 @@
 require 'filewatcher'
 require_relative 'notebook'
 
-directory = 'analysis'
+directory = '/users/wg/artsy/minotaur/analysis'
 
-FileWatcher.new("#{directory}/*.ipynb").watch do |filename, event|
+FileWatcher.new("#{directory}/**/*.ipynb").watch do |filename, event|
   puts "File #{event}: #{filename}"
 
   blog_filename = filename.split('/').last.chomp('.ipynb')
-  full_blog_path = "source/#{blog_filename}.html.markdown"
+  full_blog_path = "source/articles/#{blog_filename}.html.markdown"
 
   if event == 'delete'
     File.delete(full_blog_path)

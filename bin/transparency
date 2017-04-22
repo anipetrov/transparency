@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require 'notebook'
+
+puts Dir.glob('*.ipynb')
+
+case ARGV[0]
+when 'start' then
+ exec("foreman start")
+end
